@@ -1,0 +1,4 @@
+./*.c
+bfc/compile
+
+out
