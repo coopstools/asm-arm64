@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int i;
+int i = 0;
 int *ptr;
 
 void inc() { ptr[i] += 1; }
@@ -15,15 +15,28 @@ void movr() { i += 1; }
 void set(int v) { ptr[i] = v; }
 
 int main(void) {
+  i = 0
   ptr = (int *)calloc(sizeof(int), 16384);
+  movr();
+  movr();
   inc();
-  movr(); movr();
-  inc(); inc();
-  movr(); movr();
-  inc(); inc(); inc();
-  for (int ii = 0; ii < 6; ii++)
-    printf("%d ", ptr[ii]);
+  inc();
+  movl();
+  inc();
+  movr();
+  movr();
+  inc();
+  movl();
+  dec();
+  movl();
+  movl();
+  movr();
+  movr();
+  movr();
+  movr();
 
+  for (int ii = 0; ii <= 6; ii++)
+    printf("%d ", ptr[ii]);
   free(ptr);
   return 0;
 }

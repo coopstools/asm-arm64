@@ -21,3 +21,8 @@ buildc:
 runc: buildc
 	./$(BIN_FILE)
 	@rm $(BIN_FILE)
+
+compile:
+	./bfc/compile $(in) $(out).c
+	gcc $(out).c -o $(out)
+	rm $(out).c
