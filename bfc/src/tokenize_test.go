@@ -49,3 +49,20 @@ func TestTokenize_subjumps(t *testing.T) {
 		assert.Equal(t, extepctedCmd, cmds[i], "mismatch on line %d", i)
 	}
 }
+
+func TestTokenize_debug(t *testing.T) {
+	testCode := ">#,28>>###"
+	cmds := Tokenize(testCode)
+	expectedCmds := []Cmd{
+		{op: INC_IND},
+		{op: RW_DEBUG, value: 1},
+		{op: RD_IN, value: 28},
+		{op: INC_IND},
+		{op: INC_IND},
+		{op: RW_DEBUG, value: 3},
+	}
+	require.Equal(t, len(expectedCmds), len(cmds))
+	for i, expectedCmd := range expectedCmds {
+		assert.Equal(t, expectedCmd, cmds[i])
+	}
+}

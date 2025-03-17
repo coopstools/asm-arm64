@@ -14,6 +14,7 @@ var cmdLookup = map[Op]string{
 	DEC_IND: "movl();",
 	INC_VAL: "inc();",
 	DEC_VAL: "dec();",
+	RW_OUT:  "out();",
 }
 
 func inject(cmds []Cmd, depth int) string {
@@ -29,6 +30,15 @@ func inject(cmds []Cmd, depth int) string {
 			code = fmt.Sprintf("%s  while(ptr[i]!=0){f%d();}\n", code, depth*10+subcount)
 			subcount += 1
 			continue
+		}
+		if cmd.op == RD_IN {
+			if cmd.value != -1 {
+				code = fmt.Sprintf("%s  set(%d);\n", code, cmd.value)
+			}
+			continue
+		}
+		if cmd.op == RW_DEBUG {
+			code = fmt.Sprintf("%s  debug(%d);\n", code, cmd.value)
 		}
 		if v, ok := cmdLookup[cmd.op]; ok {
 			code = fmt.Sprintf("%s  %s\n", code, v)

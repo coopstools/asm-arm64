@@ -18,6 +18,8 @@ const (
 	RW_OUT   Op = 5
 	CTRL_JMP Op = 6
 	CTRL_RTN Op = 7
+
+	RW_DEBUG = 8
 )
 
 type Cmd struct {
@@ -36,7 +38,10 @@ func Tokenize(rawCmd string) []Cmd {
 				scan = append(scan, r)
 				continue
 			}
-			val, _ := strconv.Atoi(string(scan))
+			val := -1
+			if len(scan) >= 1 {
+				val, _ = strconv.Atoi(string(scan))
+			}
 			cmds = append(cmds, Cmd{op: RD_IN, value: val % 256})
 			scan = nil
 			p++
@@ -69,6 +74,12 @@ func Tokenize(rawCmd string) []Cmd {
 			cmds = append(cmds, Cmd{op: CTRL_RTN, value: p - lastP})
 			cmds[lastP].value = p - lastP
 			p++
+		case '#':
+			if len(cmds) > 0 && cmds[len(cmds)-1].op == RW_DEBUG {
+				cmds[len(cmds)-1].value += 1
+				break
+			}
+			cmds = append(cmds, Cmd{op: RW_DEBUG, value: 1})
 		}
 	}
 	// TODO: Add check for mismatch parens

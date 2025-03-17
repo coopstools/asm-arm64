@@ -13,6 +13,19 @@ void movl() { i -= 1; }
 void movr() { i += 1; }
 
 void set(int v) { ptr[i] = v; }
+
+void out() { printf("%d ", ptr[i]); }
+
+void debug(int width) {
+  int k = i;
+  if (k < width) { k = width+1; }
+  printf("[ ");
+  for (int j = i-width; j <= i+width; j++) {
+    printf("%d ", ptr[j]);
+  }
+  printf("] ");
+}
+
 // start custom code
 {{$funcs}}
 // stop custom code
@@ -21,8 +34,6 @@ int main(void) {
   i = 0;
   ptr = (int *)calloc(sizeof(int), 16384);
   f0();
-  for (int ii = 0; ii <= 6; ii++)
-    printf("%d ", ptr[ii]);
   free(ptr);
   return 0;
 }
