@@ -66,8 +66,8 @@ func Tokenize(rawCmd string) []Cmd {
 		case ']':
 			lastP := pStack[len(pStack)-1]
 			pStack = pStack[:len(pStack)-1]
-			cmds = append(cmds, Cmd{op: CTRL_RTN, value: lastP})
-			cmds[lastP].value = p
+			cmds = append(cmds, Cmd{op: CTRL_RTN, value: p - lastP})
+			cmds[lastP].value = p - lastP
 			p++
 		}
 	}
