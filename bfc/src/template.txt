@@ -13,11 +13,14 @@ void movl() { i -= 1; }
 void movr() { i += 1; }
 
 void set(int v) { ptr[i] = v; }
+// start custom code
+{{$funcs}}
+// stop custom code
 
 int main(void) {
   i = 0;
   ptr = (int *)calloc(sizeof(int), 16384);
-{{$}}
+  f0();
   for (int ii = 0; ii <= 6; ii++)
     printf("%d ", ptr[ii]);
   free(ptr);

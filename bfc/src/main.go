@@ -24,7 +24,7 @@ func main() {
 	}
 	outputFileName := args[2]
 	cmds := CreateTokensFromFileName(fileName)
-	output := Inject(cmds)
+	output := InjectTokensAsCode(cmds)
 
 	err := os.WriteFile(outputFileName, []byte(output), 0644)
 	if err != nil {
