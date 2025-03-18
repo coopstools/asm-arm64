@@ -26,7 +26,7 @@ builda:
 	@rm hello.o
 
 runa: build
-	./$(BIN_FILE)
+	./$(BIN_FILE) $1
 	@rm $(BIN_FILE)
 
 buildc:
