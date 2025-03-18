@@ -34,7 +34,9 @@ func inject(cmds []Cmd, depth int) string {
 		if cmd.op == RD_IN {
 			if cmd.value != -1 {
 				code = fmt.Sprintf("%s  set(%d);\n", code, cmd.value)
+				continue
 			}
+			code = fmt.Sprintf("%s  setFrom();\n", code)
 			continue
 		}
 		if cmd.op == RW_DEBUG {

@@ -18,7 +18,7 @@ precompile:
 compile:
 	./bfc/compile $(in) $(out).c
 	gcc $(out).c -o $(out)
-	rm $(out).c
+	@rm $(out).c
 
 builda:
 	@as $(FILE) -o hello.o

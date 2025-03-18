@@ -27,9 +27,23 @@ type Cmd struct {
 	value int
 }
 
+type stack struct {
+	values []int
+}
+
+func (s *stack) push(v int) {
+	s.values = append(s.values, v)
+}
+
+func (s *stack) pop() int {
+	v := s.values[len(s.values)-1]
+	s.values = s.values[:len(s.values)-1]
+	return v
+}
+
 func Tokenize(rawCmd string) []Cmd {
 	var cmds []Cmd
-	var pStack []int
+	pStack := stack{values: make([]int, 0)}
 	var scan []rune
 	var p int
 	for _, r := range rawCmd {
@@ -66,11 +80,10 @@ func Tokenize(rawCmd string) []Cmd {
 			p++
 		case '[':
 			cmds = append(cmds, Cmd{op: CTRL_JMP})
-			pStack = append(pStack, p)
+			pStack.push(p)
 			p++
 		case ']':
-			lastP := pStack[len(pStack)-1]
-			pStack = pStack[:len(pStack)-1]
+			lastP := pStack.pop()
 			cmds = append(cmds, Cmd{op: CTRL_RTN, value: p - lastP})
 			cmds[lastP].value = p - lastP
 			p++
@@ -80,6 +93,7 @@ func Tokenize(rawCmd string) []Cmd {
 				break
 			}
 			cmds = append(cmds, Cmd{op: RW_DEBUG, value: 1})
+			p++
 		}
 	}
 	// TODO: Add check for mismatch parens
